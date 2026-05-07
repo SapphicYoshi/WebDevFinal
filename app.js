@@ -136,3 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         Notification.requestPermission();
     }
 });
+
+python -m http.server 8000
+
