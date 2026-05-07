@@ -3,24 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Timer with Flashcards</title>
+    <title>Pomodoro Timer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Pomodoro Timer with Flashcards</h1>
+            <h1>Pomodoro Timer</h1>
         </header>
 
         <main>
-            <!-- Navigation Tabs -->
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="timer">Timer</button>
-                <button class="tab-btn" data-tab="flashcards">Flashcards</button>
-            </div>
-
             <!-- Timer Section -->
-            <section id="timer" class="tab-content active">
+            <section>
                 <div class="timer-container">
                     <div class="session-type">
                         <span id="sessionType" class="session-label">Work Session</span>
@@ -51,57 +45,6 @@
 
                     <div class="progress-info">
                         <p>Sessions Completed: <span id="sessionsCompeted">0</span></p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Flashcards Section -->
-            <section id="flashcards" class="tab-content">
-                <div class="flashcards-container">
-                    <!-- Add New Card -->
-                    <div class="add-card-section">
-                        <h3>Add New Flashcard</h3>
-                        <div class="form-group">
-                            <input type="text" id="cardQuestion" placeholder="Question/Front">
-                            <textarea id="cardAnswer" placeholder="Answer/Back"></textarea>
-                            <button id="addCardBtn" class="btn btn-primary">Add Card</button>
-                        </div>
-                    </div>
-
-                    <!-- Card Display -->
-                    <div class="card-display-section">
-                        <div id="emptyState" class="empty-state">
-                            <p>No flashcards yet. Create one to get started!</p>
-                        </div>
-                        <div id="cardContainer" class="card-container" style="display: none;">
-                            <div class="card-navigation">
-                                <button id="prevCardBtn" class="btn btn-secondary">← Previous</button>
-                                <span id="cardCounter" class="card-counter">1 / 0</span>
-                                <button id="nextCardBtn" class="btn btn-secondary">Next →</button>
-                            </div>
-
-                            <div class="flashcard" id="flashcard">
-                                <div class="flashcard-inner">
-                                    <div class="flashcard-front">
-                                        <p id="cardFront">Front</p>
-                                    </div>
-                                    <div class="flashcard-back">
-                                        <p id="cardBack">Back</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-actions">
-                                <button id="deleteCardBtn" class="btn btn-danger">Delete Card</button>
-                                <button id="shuffleCardsBtn" class="btn btn-secondary">Shuffle</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cards List -->
-                    <div class="cards-list-section">
-                        <h3>Your Flashcards</h3>
-                        <ul id="cardsList" class="cards-list"></ul>
                     </div>
                 </div>
             </section>
