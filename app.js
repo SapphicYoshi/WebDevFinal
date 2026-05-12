@@ -184,7 +184,6 @@ function updateSettings() {
     }
 }
 
-// ==================== EVENT LISTENERS ====================
 
 // Timer Events
 startBtn.addEventListener('click', startTimer);
@@ -192,7 +191,6 @@ pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 updateSettingsBtn.addEventListener('click', updateSettings);
 
-// ==================== INITIALIZATION ====================
 
 document.addEventListener('DOMContentLoaded', () => {
     loadState();
@@ -200,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSessionDisplay();
     updateHistoryUI();
 
-    // Request notification permission
     if ('Notification' in window && Notification.permission === 'default') {
         Notification.requestPermission();
     }
