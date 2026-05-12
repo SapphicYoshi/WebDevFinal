@@ -6,6 +6,7 @@ let sessionsCompleted = 0;
 let timerInterval = null;
 let workDuration = 25 * 60;
 let breakDuration = 5 * 60;
+let sessionHistory = [];
 
 // DOM Elements
 const timeDisplay = document.getElementById('timeDisplay');
@@ -17,6 +18,7 @@ const breakTimeInput = document.getElementById('breakTime');
 const updateSettingsBtn = document.getElementById('updateSettingsBtn');
 const sessionType = document.getElementById('sessionType');
 const sessionsCompletedDisplay = document.getElementById('sessionsCompeted');
+const sessionHistoryEl = document.getElementById('sessionHistory');
 
 // ==================== TIMER FUNCTIONS ====================
 
@@ -63,6 +65,7 @@ function resetTimer() {
     updateSessionDisplay();
     startBtn.disabled = false;
     pauseBtn.disabled = true;
+    saveState();
 }
 
 function switchSession() {
@@ -71,13 +74,16 @@ function switchSession() {
     if (isWorkSession) {
         sessionsCompleted++;
         sessionsCompletedDisplay.textContent = sessionsCompleted;
+        addHistoryEntry('Completed a work session');
         timeLeft = workDuration;
         playNotification('Break is over! Time to work!');
     } else {
+        addHistoryEntry('Started a break');
         timeLeft = breakDuration;
         playNotification('Good work! Time for a break!');
     }
 
+    saveState();
     updateSessionDisplay();
     updateTimerDisplay();
     startTimer();
@@ -85,11 +91,11 @@ function switchSession() {
 
 function updateSessionDisplay() {
     if (isWorkSession) {
-        sessionType.textContent = '🎯 Work Session';
+        sessionType.textContent = 'Work Session';
         sessionType.style.background = '#fff3cd';
         sessionType.style.color = '#856404';
     } else {
-        sessionType.textContent = '☕ Break Time';
+        sessionType.textContent = 'Break Time';
         sessionType.style.background = '#d4edda';
         sessionType.style.color = '#155724';
     }
@@ -97,10 +103,71 @@ function updateSessionDisplay() {
 
 function playNotification(message) {
     console.log(message);
-    // Optional: Add browser notification
     if ('Notification' in window && Notification.permission === 'granted') {
         new Notification(message);
     }
+}
+
+function loadState() {
+    try {
+        const savedData = JSON.parse(localStorage.getItem('pomodoroData'));
+        if (!savedData) return;
+
+        workDuration = typeof savedData.workDuration === 'number' ? savedData.workDuration : workDuration;
+        breakDuration = typeof savedData.breakDuration === 'number' ? savedData.breakDuration : breakDuration;
+        sessionsCompleted = typeof savedData.sessionsCompleted === 'number' ? savedData.sessionsCompleted : sessionsCompleted;
+        isWorkSession = typeof savedData.isWorkSession === 'boolean' ? savedData.isWorkSession : isWorkSession;
+        timeLeft = typeof savedData.timeLeft === 'number'
+            ? savedData.timeLeft
+            : (isWorkSession ? workDuration : breakDuration);
+        sessionHistory = Array.isArray(savedData.sessionHistory) ? savedData.sessionHistory : [];
+
+        workTimeInput.value = Math.floor(workDuration / 60);
+        breakTimeInput.value = Math.floor(breakDuration / 60);
+        sessionsCompletedDisplay.textContent = sessionsCompleted;
+    } catch (error) {
+        console.error('Could not load saved pomodoro state:', error);
+    }
+}
+
+function saveState() {
+    const state = {
+        workDuration,
+        breakDuration,
+        sessionsCompleted,
+        isWorkSession,
+        timeLeft,
+        sessionHistory,
+    };
+    localStorage.setItem('pomodoroData', JSON.stringify(state));
+}
+
+function updateHistoryUI() {
+    if (!sessionHistoryEl) return;
+
+    sessionHistoryEl.innerHTML = sessionHistory.length
+        ? sessionHistory.map(entry => `
+            <li>
+                <strong>${entry.title}</strong>
+                <span>${entry.time}</span>
+            </li>
+        `).join('')
+        : '<li>No history yet. Start a session to save progress.</li>';
+}
+
+function addHistoryEntry(title) {
+    const entry = {
+        title,
+        time: new Date().toLocaleString(),
+    };
+
+    sessionHistory.unshift(entry);
+    if (sessionHistory.length > 10) {
+        sessionHistory.length = 10;
+    }
+
+    saveState();
+    updateHistoryUI();
 }
 
 function updateSettings() {
@@ -128,14 +195,14 @@ updateSettingsBtn.addEventListener('click', updateSettings);
 // ==================== INITIALIZATION ====================
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadState();
     updateTimerDisplay();
     updateSessionDisplay();
+    updateHistoryUI();
 
     // Request notification permission
     if ('Notification' in window && Notification.permission === 'default') {
         Notification.requestPermission();
     }
 });
-
-python -m http.server 8000
 
