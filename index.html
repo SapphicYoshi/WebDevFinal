@@ -10,10 +10,11 @@
     <div class="container">
         <header>
             <h1>Pomodoro Timer</h1>
+            <p class="subtitle">A cozy productivity companion</p>
         </header>
 
         <main>
-            <! Timer Section -->
+            <!-- Timer Section -->
             <section>
                 <div class="timer-container">
                     <div class="session-type">
@@ -34,11 +35,21 @@
                     <div class="settings">
                         <div class="setting-group">
                             <label for="workTime">Work Time (minutes):</label>
-                            <input type="number" id="workTime" min="1" max="100" value="25">
+                            <input type="number" id="workTime" min="1" max="500" value="25">
                         </div>
                         <div class="setting-group">
                             <label for="breakTime">Break Time (minutes):</label>
-                            <input type="number" id="breakTime" min="1" max="30" value="5">
+                            <input type="number" id="breakTime" min="1" max="500" value="5">
+                        </div>
+                        <div class="setting-group">
+                            <label for="themeSelect">Theme:</label>
+                            <select id="themeSelect">
+                                <option value="wildflower">Wildflower Meadow</option>
+                                <option value="mushroom">Mushroom Grove</option>
+                                <option value="linen">Vintage Linen</option>
+                                <option value="forest">Forest Nook</option>
+                                <option value="lavender">Lavender Cottage</option>
+                            </select>
                         </div>
                         <button id="updateSettingsBtn" class="btn btn-secondary">Update Settings</button>
                     </div>

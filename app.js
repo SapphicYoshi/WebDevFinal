@@ -16,11 +16,33 @@ const resetBtn = document.getElementById('resetBtn');
 const workTimeInput = document.getElementById('workTime');
 const breakTimeInput = document.getElementById('breakTime');
 const updateSettingsBtn = document.getElementById('updateSettingsBtn');
+const themeSelect = document.getElementById('themeSelect');
 const sessionType = document.getElementById('sessionType');
 const sessionsCompletedDisplay = document.getElementById('sessionsCompeted');
 const sessionHistoryEl = document.getElementById('sessionHistory');
 
-// ==================== TIMER FUNCTIONS ====================
+const themes = {
+    wildflower: 'Wildflower Meadow',
+    mushroom: 'Mushroom Grove',
+    linen: 'Vintage Linen',
+    forest: 'Forest Nook',
+    lavender: 'Lavender Cottage',
+};
+
+let currentTheme = 'wildflower';
+
+function applyTheme(themeKey) {
+    if (!themes[themeKey]) {
+        themeKey = 'wildflower';
+    }
+
+    currentTheme = themeKey;
+    document.documentElement.classList.remove(...Object.keys(themes).map(key => `theme-${key}`));
+    document.documentElement.classList.add(`theme-${themeKey}`);
+    if (themeSelect) {
+        themeSelect.value = themeKey;
+    }
+}
 
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
@@ -111,7 +133,10 @@ function playNotification(message) {
 function loadState() {
     try {
         const savedData = JSON.parse(localStorage.getItem('pomodoroData'));
-        if (!savedData) return;
+        if (!savedData) {
+            applyTheme(currentTheme);
+            return;
+        }
 
         workDuration = typeof savedData.workDuration === 'number' ? savedData.workDuration : workDuration;
         breakDuration = typeof savedData.breakDuration === 'number' ? savedData.breakDuration : breakDuration;
@@ -121,12 +146,15 @@ function loadState() {
             ? savedData.timeLeft
             : (isWorkSession ? workDuration : breakDuration);
         sessionHistory = Array.isArray(savedData.sessionHistory) ? savedData.sessionHistory : [];
+        currentTheme = typeof savedData.theme === 'string' ? savedData.theme : currentTheme;
 
         workTimeInput.value = Math.floor(workDuration / 60);
         breakTimeInput.value = Math.floor(breakDuration / 60);
         sessionsCompletedDisplay.textContent = sessionsCompleted;
+        applyTheme(currentTheme);
     } catch (error) {
         console.error('Could not load saved pomodoro state:', error);
+        applyTheme(currentTheme);
     }
 }
 
@@ -138,6 +166,7 @@ function saveState() {
         isWorkSession,
         timeLeft,
         sessionHistory,
+        theme: currentTheme,
     };
     localStorage.setItem('pomodoroData', JSON.stringify(state));
 }
@@ -190,7 +219,12 @@ startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 updateSettingsBtn.addEventListener('click', updateSettings);
-
+if (themeSelect) {
+    themeSelect.addEventListener('change', (event) => {
+        applyTheme(event.target.value);
+        saveState();
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     loadState();
