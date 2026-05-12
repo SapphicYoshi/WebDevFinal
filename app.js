@@ -27,6 +27,8 @@ const themes = {
     linen: 'Vintage Linen',
     forest: 'Forest Nook',
     lavender: 'Lavender Cottage',
+    midnight: 'Midnight Fern',
+    moonlit: 'Moonlit Cottage',
 };
 
 let currentTheme = 'wildflower';
