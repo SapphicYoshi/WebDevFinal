@@ -1,11 +1,15 @@
-let timeLeft = 25 * 60;
-let isRunning = false;
-let isWorkSession = true;
-let sessionsCompleted = 0;
+const state = {
+    timeLeft: 25 * 60,
+    isRunning: false,
+    isWorkSession: true,
+    sessionsCompleted: 0,
+    workDuration: 25 * 60,
+    breakDuration: 5 * 60,
+    sessionHistory: [],
+    currentTheme: 'wildflower',
+};
+
 let timerInterval = null;
-let workDuration = 25 * 60;
-let breakDuration = 5 * 60;
-let sessionHistory = [];
 
 const timeDisplay = document.getElementById('timeDisplay');
 const startBtn = document.getElementById('startBtn');
@@ -29,19 +33,43 @@ const themes = {
     moonlit: 'Moonlit Cottage',
 };
 
-let currentTheme = 'wildflower';
-
 function applyTheme(themeKey) {
     if (!themes[themeKey]) {
         themeKey = 'wildflower';
     }
 
-    currentTheme = themeKey;
     document.documentElement.classList.remove(...Object.keys(themes).map(key => `theme-${key}`));
     document.documentElement.classList.add(`theme-${themeKey}`);
     if (themeSelect) {
         themeSelect.value = themeKey;
     }
+}
+
+function render() {
+    updateTimerDisplay();
+    updateSessionDisplay();
+    updateHistoryUI();
+
+    if (workTimeInput) {
+        workTimeInput.value = Math.floor(state.workDuration / 60);
+    }
+    if (breakTimeInput) {
+        breakTimeInput.value = Math.floor(state.breakDuration / 60);
+    }
+    if (sessionsCompletedDisplay) {
+        sessionsCompletedDisplay.textContent = state.sessionsCompleted;
+    }
+    if (themeSelect) {
+        themeSelect.value = state.currentTheme;
+    }
+    if (startBtn) {
+        startBtn.disabled = state.isRunning;
+    }
+    if (pauseBtn) {
+        pauseBtn.disabled = !state.isRunning;
+    }
+
+    applyTheme(state.currentTheme);
 }
 
 function formatTime(seconds) {
@@ -51,20 +79,21 @@ function formatTime(seconds) {
 }
 
 function updateTimerDisplay() {
-    timeDisplay.textContent = formatTime(timeLeft);
+    if (timeDisplay) {
+        timeDisplay.textContent = formatTime(state.timeLeft);
+    }
 }
 
 function startTimer() {
-    if (isRunning) return;
-    isRunning = true;
-    startBtn.disabled = true;
-    pauseBtn.disabled = false;
+    if (state.isRunning) return;
+    state.isRunning = true;
+    render();
 
     timerInterval = setInterval(() => {
-        timeLeft--;
+        state.timeLeft--;
         updateTimerDisplay();
 
-        if (timeLeft === 0) {
+        if (state.timeLeft === 0) {
             clearInterval(timerInterval);
             playAlarm();
             switchSession();
@@ -96,47 +125,43 @@ function playAlarm() {
 }
 
 function pauseTimer() {
-    isRunning = false;
+    state.isRunning = false;
     clearInterval(timerInterval);
-    startBtn.disabled = false;
-    pauseBtn.disabled = true;
+    render();
 }
 
 function resetTimer() {
     clearInterval(timerInterval);
-    isRunning = false;
-    isWorkSession = true;
-    timeLeft = workDuration;
-    updateTimerDisplay();
-    updateSessionDisplay();
-    startBtn.disabled = false;
-    pauseBtn.disabled = true;
+    state.isRunning = false;
+    state.isWorkSession = true;
+    state.timeLeft = state.workDuration;
+    render();
     saveState();
 }
 
 function switchSession() {
-    isWorkSession = !isWorkSession;
+    state.isWorkSession = !state.isWorkSession;
 
-    if (isWorkSession) {
-        sessionsCompleted++;
-        sessionsCompletedDisplay.textContent = sessionsCompleted;
+    if (state.isWorkSession) {
+        state.sessionsCompleted++;
+        state.timeLeft = state.workDuration;
         addHistoryEntry('Completed a work session');
-        timeLeft = workDuration;
         playNotification('Break is over! Time to work!');
     } else {
+        state.timeLeft = state.breakDuration;
         addHistoryEntry('Started a break');
-        timeLeft = breakDuration;
         playNotification('Good work! Time for a break!');
     }
 
     saveState();
-    updateSessionDisplay();
-    updateTimerDisplay();
+    render();
     startTimer();
 }
 
 function updateSessionDisplay() {
-    if (isWorkSession) {
+    if (!sessionType) return;
+
+    if (state.isWorkSession) {
         sessionType.textContent = 'Work Session';
         sessionType.style.background = '#fff3cd';
         sessionType.style.color = '#856404';
@@ -158,48 +183,41 @@ function loadState() {
     try {
         const savedData = JSON.parse(localStorage.getItem('pomodoroData'));
         if (!savedData) {
-            applyTheme(currentTheme);
             return;
         }
 
-        workDuration = typeof savedData.workDuration === 'number' ? savedData.workDuration : workDuration;
-        breakDuration = typeof savedData.breakDuration === 'number' ? savedData.breakDuration : breakDuration;
-        sessionsCompleted = typeof savedData.sessionsCompleted === 'number' ? savedData.sessionsCompleted : sessionsCompleted;
-        isWorkSession = typeof savedData.isWorkSession === 'boolean' ? savedData.isWorkSession : isWorkSession;
-        timeLeft = typeof savedData.timeLeft === 'number'
+        state.workDuration = typeof savedData.workDuration === 'number' ? savedData.workDuration : state.workDuration;
+        state.breakDuration = typeof savedData.breakDuration === 'number' ? savedData.breakDuration : state.breakDuration;
+        state.sessionsCompleted = typeof savedData.sessionsCompleted === 'number' ? savedData.sessionsCompleted : state.sessionsCompleted;
+        state.isWorkSession = typeof savedData.isWorkSession === 'boolean' ? savedData.isWorkSession : state.isWorkSession;
+        state.timeLeft = typeof savedData.timeLeft === 'number'
             ? savedData.timeLeft
-            : (isWorkSession ? workDuration : breakDuration);
-        sessionHistory = Array.isArray(savedData.sessionHistory) ? savedData.sessionHistory : [];
-        currentTheme = typeof savedData.theme === 'string' ? savedData.theme : currentTheme;
-
-        workTimeInput.value = Math.floor(workDuration / 60);
-        breakTimeInput.value = Math.floor(breakDuration / 60);
-        sessionsCompletedDisplay.textContent = sessionsCompleted;
-        applyTheme(currentTheme);
+            : (state.isWorkSession ? state.workDuration : state.breakDuration);
+        state.sessionHistory = Array.isArray(savedData.sessionHistory) ? savedData.sessionHistory : state.sessionHistory;
+        state.currentTheme = typeof savedData.theme === 'string' ? savedData.theme : state.currentTheme;
     } catch (error) {
         console.error('Could not load saved pomodoro state:', error);
-        applyTheme(currentTheme);
     }
 }
 
 function saveState() {
-    const state = {
-        workDuration,
-        breakDuration,
-        sessionsCompleted,
-        isWorkSession,
-        timeLeft,
-        sessionHistory,
-        theme: currentTheme,
+    const persistedState = {
+        workDuration: state.workDuration,
+        breakDuration: state.breakDuration,
+        sessionsCompleted: state.sessionsCompleted,
+        isWorkSession: state.isWorkSession,
+        timeLeft: state.timeLeft,
+        sessionHistory: state.sessionHistory,
+        theme: state.currentTheme,
     };
-    localStorage.setItem('pomodoroData', JSON.stringify(state));
+    localStorage.setItem('pomodoroData', JSON.stringify(persistedState));
 }
 
 function updateHistoryUI() {
     if (!sessionHistoryEl) return;
 
-    sessionHistoryEl.innerHTML = sessionHistory.length
-        ? sessionHistory.map(entry => `
+    sessionHistoryEl.innerHTML = state.sessionHistory.length
+        ? state.sessionHistory.map(entry => `
             <li>
                 <strong>${entry.title}</strong>
                 <span>${entry.time}</span>
@@ -214,13 +232,13 @@ function addHistoryEntry(title) {
         time: new Date().toLocaleString(),
     };
 
-    sessionHistory.unshift(entry);
-    if (sessionHistory.length > 10) {
-        sessionHistory.length = 10;
+    state.sessionHistory.unshift(entry);
+    if (state.sessionHistory.length > 10) {
+        state.sessionHistory.length = 10;
     }
 
     saveState();
-    updateHistoryUI();
+    render();
 }
 
 function updateSettings() {
@@ -228,8 +246,8 @@ function updateSettings() {
     const newBreakTime = parseInt(breakTimeInput.value);
 
     if (newWorkTime > 0 && newBreakTime > 0) {
-        workDuration = newWorkTime * 60;
-        breakDuration = newBreakTime * 60;
+        state.workDuration = newWorkTime * 60;
+        state.breakDuration = newBreakTime * 60;
         resetTimer();
         alert('Settings updated!');
     } else {
@@ -245,16 +263,15 @@ resetBtn.addEventListener('click', resetTimer);
 updateSettingsBtn.addEventListener('click', updateSettings);
 if (themeSelect) {
     themeSelect.addEventListener('change', (event) => {
-        applyTheme(event.target.value);
+        state.currentTheme = event.target.value;
         saveState();
+        render();
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     loadState();
-    updateTimerDisplay();
-    updateSessionDisplay();
-    updateHistoryUI();
+    render();
 
     if ('Notification' in window && Notification.permission === 'default') {
         Notification.requestPermission();
