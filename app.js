@@ -66,9 +66,33 @@ function startTimer() {
 
         if (timeLeft === 0) {
             clearInterval(timerInterval);
+            playAlarm();
             switchSession();
         }
     }, 1000);
+}
+
+function playAlarm() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 750;
+        gain.gain.value = 0.3;
+
+        oscillator.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 1.2);
+        oscillator.onended = () => {
+            audioCtx.close();
+        };
+    } catch (error) {
+        console.error('Alarm sound failed to play:', error);
+    }
 }
 
 function pauseTimer() {
