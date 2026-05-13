@@ -1,4 +1,3 @@
-// Pomodoro Timer Variables
 let timeLeft = 25 * 60;
 let isRunning = false;
 let isWorkSession = true;
@@ -8,7 +7,6 @@ let workDuration = 25 * 60;
 let breakDuration = 5 * 60;
 let sessionHistory = [];
 
-// DOM Elements
 const timeDisplay = document.getElementById('timeDisplay');
 const startBtn = document.getElementById('startBtn');
 const pauseBtn = document.getElementById('pauseBtn');
