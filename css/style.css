@@ -160,10 +160,6 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     background-color: var(--bg-light);
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
 }
 
 .container {
@@ -485,4 +481,256 @@ main {
     header h1 {
         font-size: 1.8em;
     }
+}
+
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.flashcards {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    padding: 60px 0 100px;
+}
+
+.top-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background: var(--primary-gradient, #2c3e50);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+.top-nav .logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.top-nav ul {
+    display: flex;
+    list-style: none;
+}
+
+.top-nav ul li {
+    margin-left: 20px;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    background-color: var(--bg-soft, rgba(0, 0, 0, 0.08));
+    display: grid;
+    /* Creates 9 equal columns */
+    grid-template-columns: repeat(9, 1fr);
+    gap: 5px;
+    padding: 5px;
+    z-index: 1000;
+}
+
+.nav-box {
+    /* Layout & Sizing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    
+    /* Button Reset & Styling */
+    background-color: var(--button-secondary-bg, #ecf0f1);
+    color: var(--button-secondary-text, #2c3e50);
+    font-family: inherit; 
+    font-size: 0.9rem;
+    border: none;         
+    border-radius: 10px;
+    
+    /* Interaction */
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, transform 0.1s;
+    text-align: center;
+}
+
+/* Adds a nice visual 'click' effect */
+.nav-box:active {
+    background-color: var(--button-bg, #2980b9);
+    transform: scale(0.95);
+}
+
+.nav-box:hover {
+    background-color: var(--button-bg, #3498db);
+    color: var(--button-text, white);
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+    
+.card-wrap {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.div1 {
+    grid-column: 1 / -1;
+    min-height: 360px;
+    border-radius: 24px;
+    background: transparent;
+    border: 1px solid rgba(44, 62, 80, 0.1);
+    box-shadow: 0 24px 50px rgba(44, 62, 80, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease;
+    width: 100%;
+    max-width: 100%;
+}
+
+.div1.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px;
+    border-radius: 24px;
+    backface-visibility: hidden;
+    background: var(--card-bg, #ffffff);
+    color: var(--text-dark, #2c3e50);
+    font-size: 1.6rem;
+    line-height: 1.4;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+.div2,
+.div3,
+.div4 {
+    border-radius: 16px;
+    background: var(--bg-soft, #ffffff);
+    border: 1px solid var(--button-secondary-border, rgba(44, 62, 80, 0.08));
+    box-shadow: 0 16px 32px rgba(44, 62, 80, 0.06);
+    padding: 10px;
+    min-height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div2 {
+    grid-column: 1 / 2;
+}
+
+.div3 {
+    grid-column: 2 / 3;
+}
+
+.div4 {
+    grid-column: 3 / 4;
+}
+
+.button {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--button-secondary-bg, #ecf0f1);
+    color: var(--button-secondary-text, #2c3e50);
+    border: 1px solid var(--button-secondary-border, rgba(44, 62, 80, 0.1));
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: transform 0.15s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.direction-button,
+.div4 .button {
+    width: auto;
+    max-width: 110px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+
+.button:hover {
+    background-color: var(--button-bg, #3498db);
+    color: var(--button-text, white);
+    transform: translateY(-1px);
+}
+
+.content {
+    max-width: 800px;
+    margin: 10px auto 0;
+    padding: 18px;
+    line-height: 1.6;
+    display: grid;
+    gap: 12px;
+    background: var(--bg-soft, #f5f1ed);
+    border-radius: 20px;
+    border: 1px solid var(--button-secondary-border, rgba(44, 62, 80, 0.08));
+}
+
+.content select,
+.content input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--button-secondary-border, rgba(44, 62, 80, 0.08));
+    background: var(--input-bg, #ffffff);
+    color: var(--text-dark, #2c3e50);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.content select:focus,
+.content input:focus {
+    border-color: var(--button-bg, #8fb3a3);
+    box-shadow: 0 0 0 4px rgba(143, 179, 163, 0.12);
+}
+
+#yes {
+    display: block;
+    margin: 18px auto 24px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 14px;
+    background: var(--button-bg, #8fb3a3);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#yes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }

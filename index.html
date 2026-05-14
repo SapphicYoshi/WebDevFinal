@@ -3,71 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Timer</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Flashcard</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Pomodoro Timer</h1>
-            <p class="subtitle">A cozy productivity companion</p>
-        </header>
+<body class="flashcards">
 
-        <main>
-            <section>
-                <div class="timer-container">
-                    <div class="session-type">
-                        <span id="sessionType" class="session-label">Work Session</span>
-                    </div>
-                    <div class="timer-display">
-                        <div class="timer-circle">
-                            <span id="timeDisplay" class="time">25:00</span>
-                        </div>
-                    </div>
+    <nav class="top-nav">
+        <div class="logo">Flashcards</div>
+        <ul>
+            <li>
+                <a href="timer.html">Timer</a>
+            </li>
+        </ul>
+    </nav>
 
-                    <div class="timer-controls">
-                        <button id="startBtn" class="btn btn-primary">Start</button>
-                        <button id="pauseBtn" class="btn btn-secondary" disabled>Pause</button>
-                        <button id="resetBtn" class="btn btn-secondary">Reset</button>
-                    </div>
+    <nav class="bottom-nav">
+        <button type="button" id="buttonOne" class="nav-box">1</button>
+        <button type="button" id="buttonTwo" class="nav-box">2</button>
+        <button type="button" id="buttonThree" class="nav-box">3</button>
+        <button type="button" id="buttonFour" class="nav-box">4</button>
+        <button type="button" id="buttonFive" class="nav-box">5</button>
+        <button type="button" id="buttonSix" class="nav-box">6</button>
+        <button type="button" id="buttonSeven" class="nav-box">7</button>
+        <button type="button" id="buttonEight" class="nav-box">8</button>
+        <button type="button" id="buttonNine" class="nav-box">9</button>
+    </nav>
 
-                    <div class="settings">
-                        <div class="setting-group">
-                            <label for="workTime">Work Time (minutes):</label>
-                            <input type="number" id="workTime" min="1" max="500" value="25">
-                        </div>
-                        <div class="setting-group">
-                            <label for="breakTime">Break Time (minutes):</label>
-                            <input type="number" id="breakTime" min="1" max="500" value="5">
-                        </div>
-                        <div class="setting-group">
-                            <label for="themeSelect">Theme:</label>
-                            <select id="themeSelect">
-                                <option value="wildflower">Wildflower Meadow</option>
-                                <option value="mushroom">Mushroom Grove</option>
-                                <option value="linen">Vintage Linen</option>
-                                <option value="forest">Forest Nook</option>
-                                <option value="lavender">Lavender Cottage</option>
-                                <option value="midnight">Midnight Fern</option>
-                                <option value="moonlit">Moonlit Cottage</option>
-                            </select>
-                        </div>
-                        <button id="updateSettingsBtn" class="btn btn-secondary">Update Settings</button>
-                    </div>
-
-                    <div class="progress-info">
-                        <p>Sessions Completed: <span id="sessionsCompeted">0</span></p>
-                    </div>
-
-                    <div class="history">
-                        <h2>Session History</h2>
-                        <ul id="sessionHistory"></ul>
-                    </div>
-                </div>
-            </section>
-        </main>
+    <div class="parent">
+        <div class="card-wrap">
+            <div id="div1" class="div1">
+                <div class="card-face card-front">Word/Definition</div>
+                <div class="card-face card-back"></div>
+            </div>
+        </div>
+        <div class="div2">
+            <button id="for" class="button direction-button">Reverse</button>
+        </div>
+        <div class="div3">
+            <button id="rev" class="button direction-button">Forward</button>
+        </div>
+        <div class="div4">
+            <button id="flip" class="button">Flip</button>
+        </div>
     </div>
 
-    <script src="app.js"></script>
+    <div class="content">
+      <select id="deckOptions">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+        <option value="option4">Option 4</option>
+        <option value="option5">Option 5</option>
+        <option value="option6">Option 6</option>
+        <option value="option7">Option 7</option>
+        <option value="option8">Option 8</option>
+        <option value="option9">Option 9</option>
+      </select>
+
+      <input id="front" placeholder="Front">
+      <input id="back" placeholder="Back">
+
+      <button id="yes">Yes</button>
+    </div>
+
+    <script src="js/main.js"></script>
+
 </body>
 </html>
