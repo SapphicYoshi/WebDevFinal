@@ -520,6 +520,37 @@ body.flashcards {
     list-style: none;
 }
 
+.top-nav .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.theme-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.theme-selector label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+.theme-selector select {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    min-width: 160px;
+    font-weight: 600;
+    appearance: none;
+}
+
 .top-nav ul li {
     margin-left: 20px;
 }

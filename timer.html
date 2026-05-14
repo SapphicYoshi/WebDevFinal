@@ -9,9 +9,23 @@
 <body>
     <nav class="top-nav">
         <div class="logo">Pomodoro Timer</div>
-        <ul>
-            <li><a href="index.html" class="nav-link-button">📇 Flashcards</a></li>
-        </ul>
+        <div class="nav-actions">
+            <div class="theme-selector">
+                <label for="themeSelect">Theme</label>
+                <select id="themeSelect">
+                    <option value="wildflower">Wildflower Meadow</option>
+                    <option value="mushroom">Mushroom Grove</option>
+                    <option value="linen">Vintage Linen</option>
+                    <option value="forest">Forest Nook</option>
+                    <option value="lavender">Lavender Cottage</option>
+                    <option value="midnight">Midnight Fern</option>
+                    <option value="moonlit">Moonlit Cottage</option>
+                </select>
+            </div>
+            <ul>
+                <li><a href="index.html" class="nav-link-button">📇 Flashcards</a></li>
+            </ul>
+        </div>
     </nav>
 
     <div class="container">
@@ -46,18 +60,6 @@
                         <div class="setting-group">
                             <label for="breakTime">Break Time (minutes):</label>
                             <input type="number" id="breakTime" min="1" max="500" value="5">
-                        </div>
-                        <div class="setting-group">
-                            <label for="themeSelect">Theme:</label>
-                            <select id="themeSelect">
-                                <option value="wildflower">Wildflower Meadow</option>
-                                <option value="mushroom">Mushroom Grove</option>
-                                <option value="linen">Vintage Linen</option>
-                                <option value="forest">Forest Nook</option>
-                                <option value="lavender">Lavender Cottage</option>
-                                <option value="midnight">Midnight Fern</option>
-                                <option value="moonlit">Moonlit Cottage</option>
-                            </select>
                         </div>
                         <button id="updateSettingsBtn" class="btn btn-secondary">Update Settings</button>
                     </div>
