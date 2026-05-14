@@ -161,6 +161,55 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('pomodoroData', JSON.stringify(savedState));
     }
 
+    function saveFlashcards() {
+        if (!window.localStorage) return;
+        const savePayload = {
+            decks: {
+                option1: { fronts: decks.option1.fronts, backs: decks.option1.backs },
+                option2: { fronts: decks.option2.fronts, backs: decks.option2.backs },
+                option3: { fronts: decks.option3.fronts, backs: decks.option3.backs },
+                option4: { fronts: decks.option4.fronts, backs: decks.option4.backs },
+                option5: { fronts: decks.option5.fronts, backs: decks.option5.backs },
+                option6: { fronts: decks.option6.fronts, backs: decks.option6.backs },
+                option7: { fronts: decks.option7.fronts, backs: decks.option7.backs },
+                option8: { fronts: decks.option8.fronts, backs: decks.option8.backs },
+                option9: { fronts: decks.option9.fronts, backs: decks.option9.backs },
+            },
+            activeDeck: activeDeck ? Object.keys(decks).find(key => decks[key] === activeDeck) : null,
+            activeIdx,
+            showingFront,
+        };
+        localStorage.setItem('flashcardData', JSON.stringify(savePayload));
+    }
+
+    function loadFlashcards() {
+        if (!window.localStorage) return;
+        try {
+            const savedData = JSON.parse(localStorage.getItem('flashcardData'));
+            if (!savedData || !savedData.decks) return;
+
+            Object.keys(savedData.decks).forEach(deckKey => {
+                const savedDeck = savedData.decks[deckKey];
+                if (savedDeck && Array.isArray(savedDeck.fronts) && Array.isArray(savedDeck.backs)) {
+                    decks[deckKey].fronts = [...savedDeck.fronts];
+                    decks[deckKey].backs = [...savedDeck.backs];
+                }
+            });
+
+            if (savedData.activeDeck && decks[savedData.activeDeck]?.fronts.length > 0) {
+                activeIdx = typeof savedData.activeIdx === 'number' ? savedData.activeIdx : 0;
+                showingFront = typeof savedData.showingFront === 'boolean' ? savedData.showingFront : true;
+                setActiveDeck(savedData.activeDeck);
+                if (activeDeck) {
+                    activeIdx = Math.min(activeIdx, activeDeck.fronts.length - 1);
+                    showText(activeDeck, activeIdx);
+                }
+            }
+        } catch (error) {
+            console.error('Could not load saved flashcards:', error);
+        }
+    }
+
     function loadState() {
         try {
             const savedData = JSON.parse(localStorage.getItem('pomodoroData'));
@@ -309,6 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.classList.remove('flipped');
             }
             activeDeck = null;
+            saveFlashcards();
             return;
         }
 
@@ -316,6 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
         activeIdx = 0;
         showingFront = true;
         showText(activeDeck, activeIdx);
+        saveFlashcards();
     }
 
     function attachDeckButton(buttonId, deckKey) {
@@ -363,6 +414,8 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTheme(savedTheme);
         }
 
+        loadFlashcards();
+
         yesButton.addEventListener('click', () => {
             const selected = deckOptions.value;
             const front = frontInput.value.trim();
@@ -375,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             decks[selected].fronts.push(front);
             decks[selected].backs.push(back);
+            saveFlashcards();
 
             frontInput.value = '';
             backInput.value = '';
