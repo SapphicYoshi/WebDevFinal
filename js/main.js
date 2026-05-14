@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // State — holds all the app's dynamic data
     const state = {
         timeLeft: 25 * 60,
         isRunning: false,
@@ -35,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const reverseBtn = document.getElementById('rev');
     const flipBtn = document.getElementById('flip');
 
-    // Add theme change listener for instant theme switching
     if (themeSelect) {
         themeSelect.addEventListener('change', () => {
             state.currentTheme = themeSelect.value;
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Multiple themes for personalization — allows users to choose their preferred visual style, see applyTheme()
     const themes = {
         wildflower: 'Wildflower Meadow',
         mushroom: 'Mushroom Grove',
@@ -70,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeDeck = null;
     let activeIdx = 0;
 
+    // applyTheme — applies the selected theme to the document, ensuring consistent styling across the app
     function applyTheme(themeKey) {
         if (!themes[themeKey]) {
             themeKey = 'wildflower';
@@ -129,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Render — updates the UI to reflect the current state
     function render() {
         updateTimerDisplay();
         updateSessionDisplay();
@@ -156,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme(state.currentTheme);
     }
 
+    // localStorage — saves user settings and progress so they persist across browser sessions, see loadState()
     function saveState() {
         if (!window.localStorage) return;
         const savedState = {
@@ -247,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Audio API for notifications — generates a beep sound to alert users when timer sessions end, providing immediate feedback without relying on visuals
     function playAlarm() {
         try {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -268,6 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Notifications API — shows browser notifications for timer events, keeping users informed even when the tab is not active
     function playNotification(message) {
         if ('Notification' in window && Notification.permission === 'granted') {
             new Notification(message);
@@ -280,6 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
         state.sessionHistory.push(`[${timeMark}] ${entry}`);
     }
 
+    // Handlers — respond to actions and timer
+    // Pomodoro timer logic — manages the countdown and session switching to help users maintain productive work habits with regular breaks
     function startTimer() {
         if (state.isRunning) return;
 
@@ -340,6 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startTimer();
     }
 
+    // Flashcard display system — shows the appropriate card side and the flip animation for studying
     function showText(deck, idx) {
         if (!card || !cardFront || !cardBack) return;
         if (!deck || deck.fronts.length === 0) {
@@ -385,6 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => setActiveDeck(deckKey));
     }
 
+    // Timer page initialization — sets up the Pomodoro timer and connects all the controls to their handlers
     function initTimerPage() {
         if (!startBtn && !pauseBtn && !resetBtn) return;
 
@@ -415,6 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Flashcard page initialization — sets up the flashcard system with deck management and navigation controls
     function initFlashcardPage() {
         if (!yesButton || !deckOptions || !frontInput || !backInput || !card) return;
 
@@ -489,6 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Wiring — initializes the app's features and connects everything
     initTimerPage();
     initFlashcardPage();
 });

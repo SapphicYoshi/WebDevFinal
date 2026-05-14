@@ -4,6 +4,8 @@
     box-sizing: border-box;
 }
 
+/* Custom, intentional design with consistent type scale, spacing, and color palette — creates a cohesive and pleasant user experience */
+
 :root {
     --primary-color: #7a9b8e;
     --primary-gradient: linear-gradient(135deg, #8fb3a3 0%, #7a9b8e 100%);
@@ -15,9 +17,6 @@
     --header-text: #ffffff;
     --label-bg: #f5f1ed;
     --label-text: #7a9b8e;
-    --circle-bg: linear-gradient(135deg, #8fb3a3 0%, #7a9b8e 100%);
-    --circle-shadow: 0 12px 40px rgba(122, 155, 142, 0.2);
-    --circle-ring: rgba(255, 255, 255, 0.18);
     --button-bg: #8fb3a3;
     --button-text: white;
     --button-secondary-bg: #f0ebe6;
@@ -33,6 +32,8 @@
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
+/* CSS custom properties for theming — see applyTheme() in main.js */
+
 .theme-mushroom {
     --primary-color: #a77d63;
     --primary-gradient: linear-gradient(135deg, #b28b72 0%, #a77d63 100%);
@@ -42,8 +43,6 @@
     --settings-bg: #f7ede6;
     --label-bg: #f6ede7;
     --label-text: #7f5d4b;
-    --circle-bg: linear-gradient(135deg, #b28b72 0%, #a77d63 100%);
-    --circle-shadow: 0 12px 40px rgba(162, 118, 95, 0.22);
     --button-bg: #a77d63;
     --button-secondary-bg: #f5ebe1;
     --button-secondary-text: #7f5d4b;
@@ -62,8 +61,6 @@
     --settings-bg: #f8f1ea;
     --label-bg: #ece2d8;
     --label-text: #8b7c70;
-    --circle-bg: linear-gradient(135deg, #d9c7af 0%, #c1b2a0 100%);
-    --circle-shadow: 0 12px 40px rgba(168, 142, 123, 0.2);
     --button-bg: #c1a98f;
     --button-secondary-bg: #f3ebe3;
     --button-secondary-text: #8b7c70;
@@ -102,8 +99,6 @@
     --settings-bg: #f4ebf4;
     --label-bg: #f0e6f0;
     --label-text: #7a6180;
-    --circle-bg: linear-gradient(135deg, #b59fc9 0%, #9a84b0 100%);
-    --circle-shadow: 0 12px 40px rgba(145, 120, 166, 0.22);
     --button-bg: #9a84b0;
     --button-secondary-bg: #f1e6f1;
     --button-secondary-text: #7a6180;
@@ -122,8 +117,6 @@
     --settings-bg: #1b2322;
     --label-bg: rgba(255, 255, 255, 0.06);
     --label-text: #d8e3df;
-    --circle-bg: linear-gradient(135deg, #2e4a47 0%, #1d312f 100%);
-    --circle-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
     --button-bg: #466860;
     --button-text: #f2f7f5;
     --button-secondary-bg: #232d2c;
@@ -146,8 +139,6 @@
     --settings-bg: #1f2632;
     --label-bg: rgba(248, 248, 255, 0.06);
     --label-text: #d7dce7;
-    --circle-bg: linear-gradient(135deg, #57637d 0%, #2f3949 100%);
-    --circle-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
     --button-bg: #7f8ca9;
     --button-text: #f7f8fb;
     --button-secondary-bg: #2d3444;
@@ -212,7 +203,6 @@ main {
     padding: 40px;
 }
 
-/* Buttons */
 .btn {
     padding: 12px 28px;
     border: none;
@@ -283,7 +273,6 @@ main {
     cursor: not-allowed;
 }
 
-/* Timer Section */
 .timer-container {
     text-align: center;
 }
@@ -456,7 +445,8 @@ main {
     font-size: 13px;
 }
 
-/* Responsive Design */
+/* Responsive design that adapts gracefully to different screen sizes without breaking the layout */
+
 @media (max-width: 768px) {
     .settings {
         flex-direction: column;
@@ -483,7 +473,6 @@ main {
 }
 
 
-/* Basic Reset */
 * {
     margin: 0;
     padding: 0;
@@ -596,28 +585,22 @@ body.flashcards {
 }
 
 .nav-box {
-    /* Layout & Sizing */
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
-    
-    /* Button Reset & Styling */
     background-color: var(--button-secondary-bg, #ecf0f1);
     color: var(--button-secondary-text, #2c3e50);
     font-family: inherit; 
     font-size: 0.9rem;
     border: none;         
     border-radius: 10px;
-    
-    /* Interaction */
     cursor: pointer;
     transition: background 0.3s, color 0.3s, transform 0.1s;
     text-align: center;
 }
 
-/*'click' effect */
 .nav-box:active {
     background-color: var(--button-bg, #2980b9);
     transform: scale(0.95);
@@ -627,6 +610,8 @@ body.flashcards {
     background-color: var(--button-bg, #3498db);
     color: var(--button-text, white);
 }
+
+/* CSS Grid for flexible layouts */
 
 .parent {
     display: grid;
@@ -645,6 +630,8 @@ body.flashcards {
     width: 100%;
     margin-bottom: 8px;
 }
+
+/* CSS for 3D card flipping effect */
 
 .div1 {
     grid-column: 1 / -1;
