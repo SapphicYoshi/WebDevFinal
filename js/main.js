@@ -35,6 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const reverseBtn = document.getElementById('rev');
     const flipBtn = document.getElementById('flip');
 
+    // Add theme change listener for instant theme switching
+    if (themeSelect) {
+        themeSelect.addEventListener('change', () => {
+            state.currentTheme = themeSelect.value;
+            applyTheme(state.currentTheme);
+            saveState();
+        });
+    }
+
     const themes = {
         wildflower: 'Wildflower Meadow',
         mushroom: 'Mushroom Grove',
@@ -412,6 +421,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedTheme = loadSavedTheme();
         if (savedTheme) {
             applyTheme(savedTheme);
+            state.currentTheme = savedTheme;
+        } else {
+            state.currentTheme = 'wildflower';
+        }
+        if (themeSelect) {
+            themeSelect.value = state.currentTheme;
         }
 
         loadFlashcards();

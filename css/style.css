@@ -544,8 +544,8 @@ body.flashcards {
     padding: 8px 12px;
     border-radius: 10px;
     border: none;
-    background: rgba(255, 255, 255, 0.12);
-    color: white;
+    background: rgba(255, 255, 255, 0.95);
+    color: #111;
     min-width: 160px;
     font-weight: 600;
     appearance: none;
