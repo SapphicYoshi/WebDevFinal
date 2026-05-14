@@ -34,6 +34,7 @@
 }
 
 .theme-mushroom {
+    --primary-color: #a77d63;
     --primary-gradient: linear-gradient(135deg, #b28b72 0%, #a77d63 100%);
     --bg-light: #fbf7f2;
     --bg-soft: #f4ebe5;
@@ -53,6 +54,7 @@
 }
 
 .theme-linen {
+    --primary-color: #c1a98f;
     --primary-gradient: linear-gradient(135deg, #d9c7af 0%, #c1b2a0 100%);
     --bg-light: #fbf8f5;
     --bg-soft: #f6f0eb;
@@ -72,6 +74,7 @@
 }
 
 .theme-forest {
+    --primary-color: #7c9474;
     --primary-gradient: linear-gradient(135deg, #5f7a5f 0%, #7c9474 100%);
     --bg-light: #f2f5ef;
     --bg-soft: #e9efe4;
@@ -91,6 +94,7 @@
 }
 
 .theme-lavender {
+    --primary-color: #9a84b0;
     --primary-gradient: linear-gradient(135deg, #b59fc9 0%, #9a84b0 100%);
     --bg-light: #fbf5fb;
     --bg-soft: #f7eff7;
@@ -110,6 +114,7 @@
 }
 
 .theme-midnight {
+    --primary-color: #243b39;
     --primary-gradient: linear-gradient(135deg, #243b39 0%, #1b2725 100%);
     --bg-light: #111416;
     --bg-soft: #181c1b;
@@ -133,6 +138,7 @@
 }
 
 .theme-moonlit {
+    --primary-color: #4a5260;
     --primary-gradient: linear-gradient(135deg, #4a5260 0%, #2b3140 100%);
     --bg-light: #161a22;
     --bg-soft: #1f2632;
@@ -181,14 +187,7 @@ header {
 }
 
 header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 300px;
-    height: 300px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 50%;
+    content: none;
 }
 
 header h1 {
