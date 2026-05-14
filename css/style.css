@@ -172,7 +172,7 @@ body {
 }
 
 header {
-    background: var(--primary-gradient);
+    background: var(--primary-color);
     color: var(--header-text);
     padding: 45px 30px;
     text-align: center;
@@ -532,7 +532,6 @@ body.flashcards {
     height: 70px;
     background-color: var(--bg-soft, rgba(0, 0, 0, 0.08));
     display: grid;
-    /* Creates 9 equal columns */
     grid-template-columns: repeat(9, 1fr);
     gap: 5px;
     padding: 5px;
@@ -561,7 +560,7 @@ body.flashcards {
     text-align: center;
 }
 
-/* Adds a nice visual 'click' effect */
+/*'click' effect */
 .nav-box:active {
     background-color: var(--button-bg, #2980b9);
     transform: scale(0.95);

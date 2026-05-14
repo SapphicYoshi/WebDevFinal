@@ -79,6 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
 
+    function formatTimestamp(date = new Date()) {
+        return date.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        });
+    }
+
     function updateTimerDisplay() {
         if (timeDisplay) {
             timeDisplay.textContent = formatTime(state.timeLeft);
@@ -210,11 +218,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addHistoryEntry(entry) {
-        state.sessionHistory.push(entry);
+        const timeMark = formatTimestamp();
+        state.sessionHistory.push(`[${timeMark}] ${entry}`);
     }
 
     function startTimer() {
         if (state.isRunning) return;
+
+        if (state.timeLeft === (state.isWorkSession ? state.workDuration : state.breakDuration)) {
+            const startLabel = state.isWorkSession ? 'Work session started' : 'Break started';
+            addHistoryEntry(startLabel);
+        }
+
         state.isRunning = true;
         render();
 
@@ -246,16 +261,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function switchSession() {
+        const endedLabel = state.isWorkSession ? 'Work session ended' : 'Break ended';
+        addHistoryEntry(endedLabel);
+
         state.isWorkSession = !state.isWorkSession;
 
         if (state.isWorkSession) {
             state.sessionsCompleted++;
             state.timeLeft = state.workDuration;
-            addHistoryEntry('Completed a work session');
+            addHistoryEntry('Work session started');
             playNotification('Break is over! Time to work!');
         } else {
             state.timeLeft = state.breakDuration;
-            addHistoryEntry('Started a break');
+            addHistoryEntry('Break started');
             playNotification('Good work! Time for a break!');
         }
 
