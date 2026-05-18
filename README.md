@@ -8,10 +8,8 @@
 1. **localStorage API** - Keeps settings, timer state, and flashcard data across browser sessions. Located in `saveState()`, `loadState()`, `saveFlashcards()`, and `loadFlashcards()` functions in `js/main.js`. Ensures progress isn't lost on page refresh.
 
 2. **Notifications API** - Shows browser notifications when timer sessions end, even if the tab is not active. Located in `playNotification()` function in `js/main.js`. Keeps people informed during multitasking.
-
-3. **CSS Grid** - Creates layouts for navigation and card controls. Located in `.parent` and `.bottom-nav` rules in `css/style.css`. Gives flexible, adaptive positioning.
-
-4. **CSS 3D Transforms** - Card flip animations for flashcards. Located in `.div1.flipped` and `.card-back` rules in `css/style.css`. Adds engaging visual for studying.
+  
+3. **CSS 3D Transforms** - Card flip animations for flashcards. Located in `.div1.flipped` and `.card-back` rules in `css/style.css`. Adds engaging visual for studying.
 
 Reflection on Process
 Lucky:
